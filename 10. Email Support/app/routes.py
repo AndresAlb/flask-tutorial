@@ -9,7 +9,7 @@ View functions go here
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, EmptyForm, ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, Post
-from app.email impot send_password_reset_email
+from app.email import send_password_reset_email
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -135,8 +135,8 @@ def explore():
 
 @app.route('/reset_password_request', methods=['GET','POST'])
 def reset_password_request():
-   if current_user.is_authenticated:
-       return redirect(url_for('index'))
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
@@ -146,7 +146,7 @@ def reset_password_request():
         return redirect(url_for('login'))
     return render_template('reset_password_request.html', title = 'Reset Password', form = form)
 
-@app.@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
        return redirect(url_for('index'))
